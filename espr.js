@@ -1,17 +1,17 @@
-// Helper function to format the string that we'll send to the Espruino
-function padNumber(num) {
-    return ("0000" + num).slice(-3);
+//master
+//espruino
+server = require("net").createServer(function(soc­ket) {
+  socket.on('data', function(data) {
+       parseData(data);
+  });
+}).listen(9000);
+
+function parseData(data) {
+  var idx = data.indexOf('D:', data.length - 11);
+  tRGB[0] = data.substr(idx + 2, 3);
+  tRGB[1] = data.substr(idx + 5, 3);
+  tRGB[2] = data.substr(idx + 8, 3);
+
+  console.log('r: ' + tRGB[0] + ' g: ' + tRGB[1] + ' b: ' + tRGB[2]);
+  initColor(); // This fades the color a bit, and sends the pattern through SPI to the LED controller.
 }
-var url = require('url');
-var net = require('net');
-var esp = net.connect(9000, '192.168.1.15',
-        function() {
-          console.log('Connected to Espruino!');
-});
-var http = require('http');
-http.createServer(function (req, res) {
-      var q = url.parse(req.url, true).query;
-      esp.write('D:' + padNumber(q.r) + padNumber(q.g) + padNumber(q.b));
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('OK');
-}).listen(8888, '0.0.0.0');
