@@ -1,21 +1,23 @@
+/* global A1 */
+/* global OneWire */
+/* global socket */
 //dev
 //espruino
 
 //  client = require("net").connect({host : "192.168.1.50", port: 1883},
-var server = require("net").createServer(function(soc­ket) {
-  socket.on('data', function(data) {
+var server = require("net").createServer(function (soc­ket) {
+  socket.on('data', function (data) {
     parseData(data);
   });
 
   var ow = new OneWire(A1);
   var sensor = require("DS18B20").connect(ow);
-  var readTempInterval = setInterval(function() {
+  var readTempInterval = setInterval(function () {
     console.log("Publishing " + sensor.getTemp());
     socket.write(sensor.getTemp());
   }, 5000);
 
-  socket.on('end', function()
-  {
+  socket.on('end', function () {
     clearInterval(readTempInterval);
     console.log('client disconnected');
   });
