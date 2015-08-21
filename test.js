@@ -1,3 +1,4 @@
+/* global client */
 function onConnected() {
   console.log('creating client');
   client = require("net").connect({host : "192.168.1.50", port: 1883}, function() { //'connect' listener
